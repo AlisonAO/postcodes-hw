@@ -6,15 +6,20 @@ describe 'postcode' do
     @postcode = JSON.parse(HTTParty.get('https://api.postcodes.io/postcodes/e163jt').body)
   end
 
-  it 'quality should be a number between 1 and 9' do
-    expect(@postcode['result']['quality']).to be_between(1, 9).inclusive
-  end
-
   it 'status should be integer' do
     expect(@postcode['status']).to be_kind_of(Integer)
   end
+
+  it 'postcode shoud be a present' do
+    expect(@postcode['result']['postcode']).not_to be_empty
+  end
+
   it 'postcode shoud be a string' do
     expect(@postcode['result']['postcode']).to be_kind_of(String)
+  end
+
+  it 'quality should be a number between 1 and 9' do
+    expect(@postcode['result']['quality']).to be_between(1, 9).inclusive
   end
 
   it 'eastings shoud be a integer' do
