@@ -18,6 +18,11 @@ describe 'postcode' do
     expect(@postcode['result']['postcode']).to be_kind_of(String)
   end
 
+  it "postcode should include a space" do
+    expect(@postcode['result']['postcode']).to include(" ")
+
+  end
+
   it 'qualiy should be integer' do
     expect(@postcode['result']['quality']).to be_kind_of(Integer)
   end
@@ -26,7 +31,7 @@ describe 'postcode' do
     expect(@postcode['result']['quality']).to be_between(1, 9).inclusive
   end
 
-  it "should be an integer unless its a postcode of Channel Islands or Isle of Man" do
+  it "eastings should be an integer unless its a postcode of Channel Islands or Isle of Man" do
     if @postcode['result']['postcode'].start_with?('GY', 'IM')
       expect(@postcode['result']['eastings']).to be_nil
     else
@@ -34,8 +39,12 @@ describe 'postcode' do
     end
   end
 
-  it 'northings shoud be a integer' do
-    expect(@postcode['result']['northings']).to be_kind_of(Integer)
+  it "northings should be an integer unless its a postcode of Channel Islands or Isle of Man" do
+    if @postcode['result']['postcode'].start_with?('GY', 'IM')
+      expect(@postcode['result']['northings']).to be_nil
+    else
+      expect(@postcode['result']['northings']).to be_kind_of(Integer)
+    end
   end
 
   it 'country shoud be a string' do
@@ -44,5 +53,11 @@ describe 'postcode' do
 
   it 'nhs_ha shoud be a string or null' do
     expect(@postcode['result']['nhs_ha']).to be_kind_of(String)
+  end
+
+  it "admin country should be a string or nil" do
+    unless @postcode['result']['admin_county'].nil?
+      expect(@postcode['result']['admin_county']).to be_kind_of(String)
+    end
   end
 end
