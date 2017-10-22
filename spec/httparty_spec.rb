@@ -18,12 +18,20 @@ describe 'postcode' do
     expect(@postcode['result']['postcode']).to be_kind_of(String)
   end
 
+  it 'qualiy should be integer' do
+    expect(@postcode['result']['quality']).to be_kind_of(Integer)
+  end
+
   it 'quality should be a number between 1 and 9' do
     expect(@postcode['result']['quality']).to be_between(1, 9).inclusive
   end
 
-  it 'eastings shoud be a integer' do
-    expect(@postcode['result']['eastings']).to be_kind_of(Integer)
+  it "should be an integer unless its a postcode of Channel Islands or Isle of Man" do
+    if @postcode['result']['postcode'].start_with?('GY', 'IM')
+      expect(@postcode['result']['eastings']).to be_nil
+    else
+      expect(@postcode['result']['eastings']).to be_kind_of(Integer)
+    end
   end
 
   it 'northings shoud be a integer' do
